@@ -4,6 +4,7 @@ import sys
 import json
 import requests
 import time
+from security import safe_requests
 
 parser = argparse.ArgumentParser()
 parser.add_argument("host", help="AppScan Issue Gateway Host Name")
@@ -42,7 +43,7 @@ while True:
 	#only print response when it changes
 	while prevStatus.find("Complete") == -1:
 		time.sleep(10)
-		r = requests.get(url + "/issues/pushjobs", headers=headers, params=params)
+		r = safe_requests.get(url + "/issues/pushjobs", headers=headers, params=params)
 		jsonObj = r.json()
 		newStatus = jsonObj["status"]
 		if(newStatus != prevStatus):
