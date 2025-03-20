@@ -31,7 +31,7 @@ url = "http://" + args.host + ":" + str(args.port)
 headers = {"Content-Type": "application/json","Accept": "application/json"}
 while True:
 	#make the initial request to 
-	r = requests.post(url + "/issues/pushjobs", headers=headers, data=jsonStr)
+	r = requests.post(url + "/issues/pushjobs", headers=headers, data=jsonStr, timeout=60)
 	print(r.text)
 	jsonObj = r.json()
 	id = jsonObj["id"]
@@ -42,7 +42,7 @@ while True:
 	#only print response when it changes
 	while prevStatus.find("Complete") == -1:
 		time.sleep(10)
-		r = requests.get(url + "/issues/pushjobs", headers=headers, params=params)
+		r = requests.get(url + "/issues/pushjobs", headers=headers, params=params, timeout=60)
 		jsonObj = r.json()
 		newStatus = jsonObj["status"]
 		if(newStatus != prevStatus):
